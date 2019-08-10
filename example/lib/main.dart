@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FlutterStripePayment.setStripeSettings("pk_test_tnUMOmoHd9fG7SdGAhzn9R8q","merchant.com.dormmom.store");
+    FlutterStripePayment.setStripeSettings("{STRIPE_PUBLISHABLE_KEY}","{STRIPE_APPLE_PAY_MERCHANTID}");
   }
 
   @override
@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Stipe App Example'),
+          title: const Text('Stripe App Example'),
         ),
         body: Center(
           child: Column(
