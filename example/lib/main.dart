@@ -17,8 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FlutterStripePayment.setStripeSettings("pk_test_tnUMOmoHd9fG7SdGAhzn9R8q","merchant.com.dormmom.store");
-    //FlutterStripePayment.setStripeSettings("{STRIPE_PUBLISHABLE_KEY}","{STRIPE_APPLE_PAY_MERCHANTID}");
+    FlutterStripePayment.setStripeSettings("{STRIPE_PUBLISHABLE_KEY}","{STRIPE_APPLE_PAY_MERCHANTID}");
   }
 
   @override
