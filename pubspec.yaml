@@ -1,8 +1,8 @@
 name: flutter_stripe_payment
-description: Add Stripe to your Flutter Application to Accept Card Payments for Android and iOS
+description: Add Stripe to your Flutter Application to Accept Card Payments Using Payment Intents with Strong SCA 3DS Compliance
 version: 0.0.1
-author:
-homepage:
+author: Emmanuel Oche<eopeter@gmail.com>
+homepage: https://www.dormmom.com
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
