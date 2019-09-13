@@ -1,14 +1,8 @@
 # flutter_stripe_payment
 
-Add Stripe to your Flutter Application to Accept Card Payments for Android and iOS
+Add Stripe to your Flutter Application to Accept Card Payments using Payment Intents and the Latest SCA Compliance 3DS Requirements 
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+The Payment Intents API is a new way to build dynamic payment flows. It tracks the lifecycle of a customer checkout flow and triggers additional authentication steps when required by regulatory mandates, custom Radar fraud rules, or redirect-based payment methods. 
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.

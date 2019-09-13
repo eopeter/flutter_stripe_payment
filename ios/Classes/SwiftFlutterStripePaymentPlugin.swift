@@ -87,10 +87,18 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         let paymentIntentParams = STPPaymentIntentParams(clientSecret: clientSecret)
         let paymentManager = STPPaymentHandler.shared()
         paymentManager.confirmPayment(paymentIntentParams, with: self) { (status, paymentIntent, error) in
+            
             var intentResponse: [String : Any] = ["status":"\(status)", "paymentIntentId" : paymentIntent?.stripeId ?? ""]
-            if(status == .failed) {
+            switch (status) {
+            case .failed:
                 intentResponse["errorMessage"] = error?.localizedDescription
+                intentResponse["status"] = "failed"
+            case .canceled:
+                intentResponse["status"] = "cancelled"
+            case .succeeded:
+                intentResponse["status"] = "succeeded"
             }
+            
             result(intentResponse)
         }
         
