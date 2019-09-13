@@ -23,6 +23,21 @@ FlutterStripePayment.setStripeSettings(
 var paymentMethodId = await FlutterStripePayment.addPaymentMethod();
 ```
 
+## Create Payment Intent On Server
+
+```dart
+var intent = PaymentIntent();
+    intent.amount = widget.order.cart.total;
+    intent.isManual = true;
+    intent.isConfirmed = false;
+    intent.paymentMethodId = paymentMethodId;
+    intent.currency = "usd";
+    intent.isOnSession = true;
+    intent.isSuccessful = false;
+    intent.statementDescriptor = "Dorm Mom, Inc";
+    var response = await widget.clientDataStore.createPaymentIntent(intent);
+```
+
 ## Confirm Payment Intent to Kick Off 3D Authentication
 
 ```dart
