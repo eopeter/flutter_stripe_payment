@@ -44,11 +44,11 @@ var intent = PaymentIntent();
 var intentResponse = await FlutterStripePayment.confirmPaymentIntent(
           response.clientSecret, widget.order.cart.total);
 
-      if (intentResponse.status == PaymentIntentResponseStatus.succeeded) {
+      if (intentResponse.status == PaymentResponseStatus.succeeded) {
         widget.order.paymentIntentId = intentResponse.paymentIntentId;
         widget.order.paymentMethodId = paymentMethodId;
         _submitOrder();
-      } else if (intentResponse.status == PaymentIntentResponseStatus.failed) {
+      } else if (intentResponse.status == PaymentResponseStatus.failed) {
         setState(() {
           hideBusy();
         });
@@ -67,9 +67,9 @@ var intentResponse = await FlutterStripePayment.confirmPaymentIntent(
 var intentResponse = await FlutterStripePayment.setupPaymentIntent(
         response.clientSecret, paymentMethodId);
 
-    if (intentResponse.status == PaymentIntentResponseStatus.succeeded) {
+    if (intentResponse.status == PaymentResponseStatus.succeeded) {
       await _addCardToAccount(paymentMethodId);
-    } else if (intentResponse.status == PaymentIntentResponseStatus.failed) {
+    } else if (intentResponse.status == PaymentResponseStatus.failed) {
       setState(() {
         hideBusy();
       });
@@ -82,6 +82,11 @@ var intentResponse = await FlutterStripePayment.setupPaymentIntent(
     }
 ```
 
+## Screenshots
+![iOS View](screenshots/screenshot1.png?raw=true "iOS View") | ![Android View](screenshots/screenshot2.png?raw=true "Android View")
+|:---:|:---:|
+| iOS View | Android View |
+
 ## To Do
-- Android Implementation
+- [DONE]Android Implementation
 - STPaymentCardTextField Inline Embedding

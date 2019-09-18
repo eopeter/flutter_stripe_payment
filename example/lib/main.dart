@@ -17,7 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FlutterStripePayment.setStripeSettings("{STRIPE_PUBLISHABLE_KEY}","{STRIPE_APPLE_PAY_MERCHANTID}");
+    FlutterStripePayment.setStripeSettings("pk_test_tnUMOmoHd9fG7SdGAhzn9R8q","{STRIPE_APPLE_PAY_MERCHANTID}");
   }
 
   @override
@@ -33,9 +33,9 @@ class _MyAppState extends State<MyApp> {
             children: <Widget>[
             _paymentMethodId != null ? Text("Payment Method Returned is $_paymentMethodId", textAlign: TextAlign.center,) : Container(),
             RaisedButton(child: Text("Add Card"), onPressed: () async{
-              var paymentMethodId = await FlutterStripePayment.addPaymentMethod();
+              var paymentResponse = await FlutterStripePayment.addPaymentMethod();
               setState(() {
-                _paymentMethodId = paymentMethodId;
+                _paymentMethodId = paymentResponse.paymentMethodId;
               });
             },)
           ],),

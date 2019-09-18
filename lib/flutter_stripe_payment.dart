@@ -19,50 +19,54 @@ class FlutterStripePayment {
     }
     await _channel.invokeMethod('setStripeSettings', args);
   }
-
-  static Future<String> addPaymentMethod() async {
-    var token = await _channel.invokeMethod('addPaymentMethod');
-    return token;
+  ///Present the Payment Collection Form
+  static Future<PaymentResponse> addPaymentMethod() async {
+    var response = await _channel.invokeMethod('addPaymentMethod');
+    var paymentResponse = PaymentResponse.fromJson(response);
+    return paymentResponse;
   }
 
   ///Use to process immediate payments
-  static Future<PaymentIntentResponse> confirmPaymentIntent(String clientSecret, double amount, [bool isApplePay]) async
+  static Future<PaymentResponse> confirmPaymentIntent(String clientSecret, String stripePaymentMethodId, double amount, [bool isApplePay]) async
   {
     assert(clientSecret != null);
     assert(amount != null);
+    assert(stripePaymentMethodId != null);
 
     final Map<String, Object> args = <String, dynamic>{
-      "clientSecret": clientSecret, "amount" : amount, "isApplePay" : isApplePay?? false
+      "clientSecret": clientSecret, "paymentMethodId" : stripePaymentMethodId, "amount" : amount, "isApplePay" : isApplePay?? false
     };
     var response = await _channel.invokeMethod('confirmPaymentIntent', args);
-    var paymentIntentReponse = PaymentIntentResponse.fromJson(response);
-    return paymentIntentReponse;
+    var paymentResponse = PaymentResponse.fromJson(response);
+    return paymentResponse;
   }
 
   ///Use to setup future payments
-  static Future<PaymentIntentResponse> setupPaymentIntent(String clientSecret, String stripePaymentMethodId, [bool isApplePay]) async
+  static Future<PaymentResponse> setupPaymentIntent(String clientSecret, String stripePaymentMethodId, [bool isApplePay]) async
   {
     assert(clientSecret != null);
     assert(stripePaymentMethodId != null);
     final Map<String, Object> args = <String, dynamic>{ "clientSecret": clientSecret, "paymentMethodId" : stripePaymentMethodId, "isApplePay" : isApplePay?? false
     };
     var response = await _channel.invokeMethod('setupPaymentIntent', args);
-    var paymentIntentReponse = PaymentIntentResponse.fromJson(response);
-    return paymentIntentReponse;
+    var paymentResponse = PaymentResponse.fromJson(response);
+    return paymentResponse;
   }
 
 }
 
-class PaymentIntentResponse
+class PaymentResponse
 {
-  PaymentIntentResponseStatus status;
+  PaymentResponseStatus status;
   String paymentIntentId;
+  String paymentMethodId;
   String errorMessage;
 
-  PaymentIntentResponse.fromJson(Map json){
+  PaymentResponse.fromJson(Map json){
     this.paymentIntentId = json["paymentIntentId"] as String;
+    this.paymentMethodId = json["paymentMethodId"] as String;
     this.errorMessage = json["errorMessage"] as String;
-    this.status = _$enumDecodeNullable(_$PaymentIntentResponseStatusEnumMap, json['status']);
+    this.status = _$enumDecodeNullable(_$PaymentResponseStatusEnumMap, json['status']);
   }
 
  T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
@@ -85,15 +89,15 @@ T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
       .key;
 }
 
- final _$PaymentIntentResponseStatusEnumMap = <PaymentIntentResponseStatus, dynamic>{
-  PaymentIntentResponseStatus.succeeded: 'succeeded',
-  PaymentIntentResponseStatus.failed: 'failed',
-  PaymentIntentResponseStatus.canceled: 'canceled'
+ final _$PaymentResponseStatusEnumMap = <PaymentResponseStatus, dynamic>{
+  PaymentResponseStatus.succeeded: 'succeeded',
+  PaymentResponseStatus.failed: 'failed',
+  PaymentResponseStatus.canceled: 'canceled'
  };
 
 }
 
-enum PaymentIntentResponseStatus
+enum PaymentResponseStatus
 {
     succeeded,
     failed,

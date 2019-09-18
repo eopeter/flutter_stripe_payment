@@ -94,7 +94,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
                 intentResponse["errorMessage"] = error?.localizedDescription
                 intentResponse["status"] = "failed"
             case .canceled:
-                intentResponse["status"] = "cancelled"
+                intentResponse["status"] = "canceled"
             case .succeeded:
                 intentResponse["status"] = "succeeded"
             }
@@ -119,7 +119,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
                 intentResponse["errorMessage"] = error?.localizedDescription
                 intentResponse["status"] = "failed"
             case .canceled:
-                intentResponse["status"] = "cancelled"
+                intentResponse["status"] = "canceled"
             case .succeeded:
                 intentResponse["status"] = "succeeded"
             }
@@ -167,7 +167,9 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
     
     public func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreatePaymentMethod paymentMethod: STPPaymentMethod, completion: @escaping STPErrorBlock)
     {
-        flutterResult!(paymentMethod.stripeId)
+        var paymentResponse: [String : Any] = ["status":"succeeded", "paymentMethodId" : paymentMethod.stripeId ?? ""]
+
+        flutterResult!(paymentResponse)
         
         let flutterViewController = UIApplication.shared.delegate?.window?!.rootViewController as! FlutterViewController
         
