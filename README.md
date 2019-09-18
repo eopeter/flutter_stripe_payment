@@ -20,7 +20,11 @@ FlutterStripePayment.setStripeSettings(
 ## Show Payment Form
 
 ```dart
-var paymentMethodId = await FlutterStripePayment.addPaymentMethod();
+var paymentResponse = await FlutterStripePayment.addPaymentMethod();
+if(paymentResponse.status == PaymentResponseStatus.succeeded)
+  {
+    print(paymentResponse.paymentMethodId);
+  }
 ```
 
 ## Create Payment Intent On Server
@@ -30,7 +34,7 @@ var intent = PaymentIntent();
     intent.amount = widget.order.cart.total;
     intent.isManual = true;
     intent.isConfirmed = false;
-    intent.paymentMethodId = paymentMethodId;
+    intent.paymentMethodId = paymentResponse.paymentMethodId;
     intent.currency = "usd";
     intent.isOnSession = true;
     intent.isSuccessful = false;
@@ -42,11 +46,11 @@ var intent = PaymentIntent();
 
 ```dart
 var intentResponse = await FlutterStripePayment.confirmPaymentIntent(
-          response.clientSecret, widget.order.cart.total);
+          response.clientSecret, paymentResponse.paymentMethodId, widget.order.cart.total);
 
       if (intentResponse.status == PaymentResponseStatus.succeeded) {
         widget.order.paymentIntentId = intentResponse.paymentIntentId;
-        widget.order.paymentMethodId = paymentMethodId;
+        widget.order.paymentMethodId = paymentResponse.paymentMethodId;
         _submitOrder();
       } else if (intentResponse.status == PaymentResponseStatus.failed) {
         setState(() {
@@ -65,10 +69,10 @@ var intentResponse = await FlutterStripePayment.confirmPaymentIntent(
 
 ```dart
 var intentResponse = await FlutterStripePayment.setupPaymentIntent(
-        response.clientSecret, paymentMethodId);
+        response.clientSecret, paymentResponse.paymentMethodId);
 
     if (intentResponse.status == PaymentResponseStatus.succeeded) {
-      await _addCardToAccount(paymentMethodId);
+      await _addCardToAccount(paymentResponse.paymentMethodId);
     } else if (intentResponse.status == PaymentResponseStatus.failed) {
       setState(() {
         hideBusy();
