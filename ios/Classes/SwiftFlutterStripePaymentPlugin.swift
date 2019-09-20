@@ -86,7 +86,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         isPresentingApplePay = isApplePay
         let paymentIntentParams = STPPaymentIntentParams(clientSecret: clientSecret)
         let paymentManager = STPPaymentHandler.shared()
-        paymentManager.confirmPayment(paymentIntentParams, with: self) { (status, paymentIntent, error) in
+        paymentManager.confirmPayment(withParams: paymentIntentParams, authenticationContext: self) { (status, paymentIntent, error) in
             
             var intentResponse: [String : Any] = ["status":"\(status)", "paymentIntentId" : paymentIntent?.stripeId ?? ""]
             switch (status) {
@@ -111,7 +111,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         let setupIntentConfirmParams = STPSetupIntentConfirmParams(clientSecret: clientSecret)
         setupIntentConfirmParams.paymentMethodID = paymentMethodId
         let paymentManager = STPPaymentHandler.shared()
-        paymentManager.confirmSetupIntent(setupIntentConfirmParams, with: self) { (status, paymentIntent, error) in
+        paymentManager.confirmSetupIntent(withParams: setupIntentConfirmParams, authenticationContext: self) { (status, paymentIntent, error) in
           
             var intentResponse: [String : Any] = ["status":"\(status)", "paymentIntentId" : paymentIntent?.stripeID ?? ""]
             switch (status) {
@@ -167,7 +167,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
     
     public func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreatePaymentMethod paymentMethod: STPPaymentMethod, completion: @escaping STPErrorBlock)
     {
-        var paymentResponse: [String : Any] = ["status":"succeeded", "paymentMethodId" : paymentMethod.stripeId ?? ""]
+        let paymentResponse: [String : Any] = ["status":"succeeded", "paymentMethodId" : paymentMethod.stripeId ]
 
         flutterResult!(paymentResponse)
         

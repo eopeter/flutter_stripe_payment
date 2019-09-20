@@ -15,7 +15,7 @@ Add Stripe to your Flutter Application to Accept Card Payments for Android and i
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'Stripe'
+  s.dependency 'Stripe','17.0.1'
   s.ios.deployment_target = '9.0'
 end
 

@@ -1,3 +1,7 @@
+## 0.0.5
+
+* iOS Stripe Pods Update to 17.0.1
+
 ## 0.0.4
 
 * Android Implementation
