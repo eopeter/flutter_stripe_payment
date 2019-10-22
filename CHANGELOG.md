@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Android Activity Bug Fix
+
 ## 0.0.5
 
 * iOS Stripe Pods Update to 17.0.1

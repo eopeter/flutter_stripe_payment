@@ -232,6 +232,7 @@ class PaymentActivity : Activity()
                 findViewById<View>(R.id.btn_create_payment_method)?.visibility = View.VISIBLE
                 var paymentResponse = mapOf("status" to "failed")
                 flutterResult?.success(paymentResponse)
+                finish()
               }
 
             });
@@ -266,12 +267,14 @@ class PaymentActivity : Activity()
                   var paymentResponse = mapOf("status" to "canceled" )
                   flutterResult?.success(paymentResponse)
                 }
+                finish()
               }
 
               override fun onError(e: Exception) {
                 // handle error
                 var paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
                 flutterResult?.success(paymentResponse)
+                finish()
               }
             })
 
@@ -292,12 +295,14 @@ class PaymentActivity : Activity()
                 } else if (setupIntent.requiresConfirmation()) {
                   // handle confirmation
                 }
+                finish()
               }
 
               override fun onError(e: Exception) {
                 // handle error
                 var paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
                 flutterResult?.success(paymentResponse)
+                finish()
               }
             })
   }
