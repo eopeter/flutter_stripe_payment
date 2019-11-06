@@ -1,3 +1,9 @@
+## 0.0.7
+
+* Android Gradle Upgrade to 5.6.4
+* Stripe Upgrade to Latest Versions
+* Minimum iOS 10 Required
+
 ## 0.0.6
 
 * Android Activity Bug Fix

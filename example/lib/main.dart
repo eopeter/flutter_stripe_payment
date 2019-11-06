@@ -13,11 +13,13 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _paymentMethodId;
+  String _errorMessage = "";
 
   @override
   void initState() {
     super.initState();
-    FlutterStripePayment.setStripeSettings("{STRIPE_PUBLISHABLE_KEY}","{STRIPE_APPLE_PAY_MERCHANTID}");
+    FlutterStripePayment.setStripeSettings(
+        "{STRIPE_PUBLISHABLE_KEY}", "{STRIPE_APPLE_PAY_MERCHANTID}");
   }
 
   @override
@@ -31,14 +33,31 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-            _paymentMethodId != null ? Text("Payment Method Returned is $_paymentMethodId", textAlign: TextAlign.center,) : Container(),
-            RaisedButton(child: Text("Add Card"), onPressed: () async{
-              var paymentResponse = await FlutterStripePayment.addPaymentMethod();
-              setState(() {
-                _paymentMethodId = paymentResponse.paymentMethodId;
-              });
-            },)
-          ],),
+              _paymentMethodId != null
+                  ? Text(
+                      "Payment Method Returned is $_paymentMethodId",
+                      textAlign: TextAlign.center,
+                    )
+                  : Container(
+                      child: Text(_errorMessage),
+                    ),
+              RaisedButton(
+                child: Text("Add Card"),
+                onPressed: () async {
+                  var paymentResponse =
+                      await FlutterStripePayment.addPaymentMethod();
+                  setState(() {
+                    if (paymentResponse.status ==
+                        PaymentResponseStatus.succeeded) {
+                      _paymentMethodId = paymentResponse.paymentMethodId;
+                    } else {
+                      _errorMessage = paymentResponse.errorMessage;
+                    }
+                  });
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
