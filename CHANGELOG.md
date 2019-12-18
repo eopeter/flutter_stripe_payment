@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Stripe Upgrade to Latest Versions
+
 ## 0.0.7
 
 * Android Gradle Upgrade to 5.6.4

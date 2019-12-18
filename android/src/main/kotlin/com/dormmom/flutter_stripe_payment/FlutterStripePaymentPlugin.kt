@@ -142,7 +142,7 @@ class PaymentActivity : Activity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        ///CustomerSession.initCustomerSession(this, StripeEphemeralKeyProvider())
         // Optional: customize the payment authentication experience.
         // PaymentAuthConfig.init() must be called before Stripe object
         // is instantiated.
