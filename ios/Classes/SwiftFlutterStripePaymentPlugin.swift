@@ -13,15 +13,15 @@ public class SwiftFlutterStripePaymentPlugin: NSObject, FlutterPlugin {
     
     let delegate: IDelegate
     
-    init(registrar: FlutterPluginRegistrar, viewController: UIViewController) {
-        delegate = StripePaymentDelegate(registrar: registrar, viewController: viewController)
+    init(registrar: FlutterPluginRegistrar, viewController: UIViewController, channel: FlutterMethodChannel) {
+        delegate = StripePaymentDelegate(registrar: registrar, viewController: viewController, channel: channel)
 
     }
     
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "flutter_stripe_payment", binaryMessenger: registrar.messenger())
     let flutterViewController = UIApplication.shared.delegate?.window?!.rootViewController as! FlutterViewController
-    let instance = SwiftFlutterStripePaymentPlugin(registrar: registrar, viewController: flutterViewController)
+    let instance = SwiftFlutterStripePaymentPlugin(registrar: registrar, viewController: flutterViewController, channel: channel)
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
@@ -63,10 +63,12 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
     var flutterRegistrar: FlutterPluginRegistrar
     var flutterViewController: UIViewController
     var isPresentingApplePay: Bool = false
+    let channel: FlutterMethodChannel;
     
-    init(registrar: FlutterPluginRegistrar, viewController: UIViewController) {
+    init(registrar: FlutterPluginRegistrar, viewController: UIViewController, channel: FlutterMethodChannel) {
         self.flutterRegistrar = registrar
         self.flutterViewController = viewController
+        self.channel = channel
     }
  
     func setStripeSettings(arguments: NSDictionary?, result: @escaping FlutterResult)
@@ -162,7 +164,9 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         // Dismiss add card view controller
         
         let flutterViewController = UIApplication.shared.delegate?.window?!.rootViewController as! FlutterViewController
+        channel.invokeMethod("onCancel", arguments: nil)
         flutterViewController.dismiss(animated: true)
+        
     }
     
     public func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreatePaymentMethod paymentMethod: STPPaymentMethod, completion: @escaping STPErrorBlock)

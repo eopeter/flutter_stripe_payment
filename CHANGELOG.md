@@ -1,3 +1,9 @@
+## 0.0.9
+
+* BREAKING CHANGES: Use object reference instead of static reference when making calls. See example
+* Added OnCancel callback for iOS
+* Stripe Upgrade to Latest Versions
+
 ## 0.0.8
 
 * Stripe Upgrade to Latest Versions

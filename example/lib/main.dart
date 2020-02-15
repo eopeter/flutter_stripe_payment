@@ -14,12 +14,16 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _paymentMethodId;
   String _errorMessage = "";
+  final _stripePayment = FlutterStripePayment();
 
   @override
   void initState() {
     super.initState();
-    FlutterStripePayment.setStripeSettings(
+    _stripePayment.setStripeSettings(
         "{STRIPE_PUBLISHABLE_KEY}", "{STRIPE_APPLE_PAY_MERCHANTID}");
+    _stripePayment.onCancel = () {
+      print("the payment form was cancelled");
+    };
   }
 
   @override
@@ -44,8 +48,7 @@ class _MyAppState extends State<MyApp> {
               RaisedButton(
                 child: Text("Add Card"),
                 onPressed: () async {
-                  var paymentResponse =
-                      await FlutterStripePayment.addPaymentMethod();
+                  var paymentResponse = await _stripePayment.addPaymentMethod();
                   setState(() {
                     if (paymentResponse.status ==
                         PaymentResponseStatus.succeeded) {

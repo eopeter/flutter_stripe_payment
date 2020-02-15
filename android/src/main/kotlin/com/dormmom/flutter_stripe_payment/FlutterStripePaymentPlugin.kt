@@ -24,11 +24,13 @@ class FlutterStripePaymentPlugin: MethodCallHandler {
     private lateinit var stripe: Stripe
     var _activity: Activity
     var _context: Context
+    val _channel: MethodChannel
 
-    constructor(context: Context, activity: Activity)
+    constructor(context: Context, activity: Activity, channel: MethodChannel)
     {
         this._context = context
         this._activity = activity
+        this._channel = channel
 
         val uiCustomization = PaymentAuthConfig.Stripe3ds2UiCustomization.Builder()
                 .build()
@@ -46,7 +48,8 @@ class FlutterStripePaymentPlugin: MethodCallHandler {
         @JvmStatic
         fun registerWith(registrar: Registrar) {
             val channel = MethodChannel(registrar.messenger(), "flutter_stripe_payment")
-            channel.setMethodCallHandler(FlutterStripePaymentPlugin(registrar.context(), registrar.activity()))
+            val handler = FlutterStripePaymentPlugin(registrar.context(), registrar.activity(), channel)
+            channel.setMethodCallHandler(handler)
             /*
             messageChannel = BasicMessageChannel(flutterView, CHANNEL, StringCodec.INSTANCE)
             messageChannel.setMessageHandler(object : MessageHandler<String>() {
@@ -62,7 +65,7 @@ class FlutterStripePaymentPlugin: MethodCallHandler {
 
     override fun onMethodCall(call: MethodCall, result: Result) {
 
-        var arguments = call.arguments as? Map<String, Object>
+        var arguments = call.arguments as? Map<String, Any>
 
         if (call.method == "getPlatformVersion")
         {
@@ -89,6 +92,9 @@ class FlutterStripePaymentPlugin: MethodCallHandler {
         {
             var clientSecret = arguments?.get("clientSecret") as? String
             var paymentMethodId = arguments?.get("paymentMethodId") as? String
+            if (paymentMethodId != null && clientSecret != null) {
+                this.setupPaymentIntent(paymentMethodId, clientSecret, result)
+            }
 
         }
         else {
@@ -190,14 +196,14 @@ class PaymentActivity : Activity()
         if(confirmPaymentIntent)
         {
             var data = TempHolder.getPaymentData()
-            var params = ConfirmPaymentIntentParams.createWithPaymentMethodId(data!!.paymentMethodId, data!!.clientSecret, "stripe://create_payment_intent_return")
+            var params = ConfirmPaymentIntentParams.createWithPaymentMethodId(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
             stripe.confirmPayment(this, params);
         }
 
         if(setupPaymentIntent)
         {
             var data = TempHolder.getPaymentData()
-            var params = ConfirmSetupIntentParams.create(data!!.paymentMethodId, data!!.clientSecret, "stripe://create_payment_intent_return")
+            var params = ConfirmSetupIntentParams.create(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
             stripe.confirmSetupIntent(this, params);
 
         }
@@ -214,6 +220,7 @@ class PaymentActivity : Activity()
 
         stripe.createPaymentMethod(
                 paymentMethodCreateParams,
+                null,
                 object : ApiResultCallback<PaymentMethod> {
 
                     override fun onSuccess(result: PaymentMethod) {
@@ -223,8 +230,8 @@ class PaymentActivity : Activity()
                         if (result.id != null) {
                             var paymentResponse = mapOf("status" to "succeeded", "paymentMethodId" to (result.id ?: "") )
                             flutterResult?.success(paymentResponse)
-                            finish()
                         }
+                        finish()
                     }
 
                     override fun onError(error: Exception) {

@@ -6,7 +6,18 @@ class FlutterStripePayment {
   static const MethodChannel _channel =
       const MethodChannel('flutter_stripe_payment');
 
-  static Future<void> setStripeSettings(String stripePublishableKey,
+  FlutterStripePayment() {
+    _setupOutputCallbacks();
+  }
+
+  ///Called when user cancels the Payment Method form
+  void Function() onCancel;
+
+  //Listen for Errors
+  Function(int errorCode, [String errorMessage]) onError;
+
+  ///Configure the environment with your Stripe Publishable Keys and optional Apple Pay Identifiers
+  Future<void> setStripeSettings(String stripePublishableKey,
       [String applePayMerchantIdentifier]) async {
     assert(stripePublishableKey != null);
     final Map<String, Object> args = <String, dynamic>{
@@ -21,14 +32,14 @@ class FlutterStripePayment {
   }
 
   ///Present the Payment Collection Form
-  static Future<PaymentResponse> addPaymentMethod() async {
+  Future<PaymentResponse> addPaymentMethod() async {
     var response = await _channel.invokeMethod('addPaymentMethod');
     var paymentResponse = PaymentResponse.fromJson(response);
     return paymentResponse;
   }
 
   ///Use to process immediate payments
-  static Future<PaymentResponse> confirmPaymentIntent(
+  Future<PaymentResponse> confirmPaymentIntent(
       String clientSecret, String stripePaymentMethodId, double amount,
       [bool isApplePay]) async {
     assert(clientSecret != null);
@@ -47,7 +58,7 @@ class FlutterStripePayment {
   }
 
   ///Use to setup future payments
-  static Future<PaymentResponse> setupPaymentIntent(
+  Future<PaymentResponse> setupPaymentIntent(
       String clientSecret, String stripePaymentMethodId,
       [bool isApplePay]) async {
     assert(clientSecret != null);
@@ -60,6 +71,30 @@ class FlutterStripePayment {
     var response = await _channel.invokeMethod('setupPaymentIntent', args);
     var paymentResponse = PaymentResponse.fromJson(response);
     return paymentResponse;
+  }
+
+  dispose() => _channel.setMethodCallHandler(null);
+
+  /// Sets up the bridge to the native iOS and Android implementations.
+  _setupOutputCallbacks() {
+    Future<void> platformCallHandler(MethodCall call) async {
+      // print('Output Callback: ${call.method}');
+      switch (call.method) {
+        case 'onCancel':
+          onCancel?.call();
+          break;
+        case 'onError':
+          final Map error = call.arguments;
+          final int code = error['code'];
+          final String message = error['message'];
+          onError?.call(code, message);
+          break;
+        default:
+          print('Unknown method ${call.method}');
+      }
+    }
+
+    _channel.setMethodCallHandler(platformCallHandler);
   }
 }
 
