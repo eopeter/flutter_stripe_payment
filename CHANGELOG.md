@@ -1,3 +1,7 @@
+## 0.0.11
+
+* Fixed Payment Intent Confirm Bug in iOS
+
 ## 0.0.10
 
 * Stripe Android Update to Latest
