@@ -11,7 +11,7 @@ The Payment Intents API is a new way to build dynamic payment flows. It tracks t
 ## Initialize
 
 ```dart
-var _stripePayment = FlutterStripePayment();
+final _stripePayment = FlutterStripePayment();
 _stripePayment.onCancel = (){
   print("User Cancelled the Payment Method Form");
 };

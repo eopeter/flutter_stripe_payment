@@ -1,3 +1,7 @@
+## 0.0.10
+
+* Stripe Android Update to Latest
+
 ## 0.0.9
 
 * BREAKING CHANGES: Use object reference instead of static reference when making calls. See example
