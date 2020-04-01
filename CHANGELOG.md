@@ -1,3 +1,7 @@
+## 0.0.12
+
+* Stripe Version Upgrade
+
 ## 0.0.11
 
 * Fixed Payment Intent Confirm Bug in iOS

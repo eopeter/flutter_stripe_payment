@@ -3,7 +3,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_stripe_payment'
-  s.version          = '0.0.11'
+  s.version          = '0.0.12'
   s.summary          = 'Add Stripe to your Flutter Application to Accept Card Payments for Android and iOS'
   s.description      = <<-DESC
 Add Stripe to your Flutter Application to Accept Card Payments for Android and iOS
