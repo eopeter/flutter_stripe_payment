@@ -260,7 +260,7 @@ class PaymentActivity : Activity()
 
                         val paymentIntent = result.intent
                         val status = paymentIntent.status
-                        if (status == StripeIntent.Status.Succeeded) {
+                        if (status == StripeIntent.Status.Succeeded || status == StripeIntent.Status.RequiresCapture) {
                             // show success UI
                             var paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (paymentIntent.id ?: "") )
                             flutterResult?.success(paymentResponse)
