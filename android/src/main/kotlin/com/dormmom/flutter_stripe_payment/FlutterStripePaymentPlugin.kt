@@ -260,7 +260,7 @@ class PaymentActivity : Activity()
 
                         val paymentIntent = result.intent
                         val status = paymentIntent.status
-                        if (status == StripeIntent.Status.Succeeded) {
+                        if (status == StripeIntent.Status.Succeeded || status == StripeIntent.Status.RequiresCapture) {
                             // show success UI
                             var paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (paymentIntent.id ?: "") )
                             flutterResult?.success(paymentResponse)
@@ -268,6 +268,12 @@ class PaymentActivity : Activity()
                         else if (StripeIntent.Status.RequiresPaymentMethod == status) {
                             // attempt authentication again or
                             // ask for a new Payment Method
+                            // also id 3d secure fails/declined
+                            paymentIntent.lastPaymentError?.let {
+                                var paymentResponse = mapOf("status" to "failed", "errorMessage" to it.message)
+                                flutterResult?.success(paymentResponse)
+                            }
+                            // FIXME: it should call success anyway or flutter part will wait forever
                         }
                         else if(status == StripeIntent.Status.Canceled)
                         {
