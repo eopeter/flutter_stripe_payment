@@ -1,3 +1,7 @@
+## 0.0.13
+
+* Stripe Version Upgrade
+
 ## 0.0.12
 
 * Stripe Version Upgrade

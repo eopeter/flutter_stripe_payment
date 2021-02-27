@@ -76,12 +76,12 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
     {
         guard let stripePublishableKey = arguments?["stripePublishableKey"] as? String else {return}
         let applePayMerchantIdentifier = arguments?["applePayMerchantIdentifier"] as? String
-        Stripe.setDefaultPublishableKey(stripePublishableKey)
+        StripeAPI.defaultPublishableKey = stripePublishableKey
         //STPAPIClient.shared().publishableKey = stripePublishableKey
         //STPPaymentConfiguration.shared().publishableKey = stripePublishableKey
         if(applePayMerchantIdentifier != nil)
         {
-            STPPaymentConfiguration.shared().appleMerchantIdentifier = applePayMerchantIdentifier
+            STPPaymentConfiguration.shared.appleMerchantIdentifier = applePayMerchantIdentifier
         }
     }
     
@@ -92,7 +92,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         let paymentIntentParams = STPPaymentIntentParams(clientSecret: clientSecret)
         paymentIntentParams.paymentMethodId = paymentMethodId
         let paymentManager = STPPaymentHandler.shared()
-        paymentManager.confirmPayment(withParams: paymentIntentParams, authenticationContext: self) { (status, paymentIntent, error) in
+        paymentManager.confirmPayment(paymentIntentParams, with: self) { (status, paymentIntent, error) in
             
             var intentResponse: [String : Any] = ["status":"\(status)", "paymentIntentId" : paymentIntent?.stripeId ?? ""]
             switch (status) {
@@ -103,6 +103,9 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
                 intentResponse["status"] = "canceled"
             case .succeeded:
                 intentResponse["status"] = "succeeded"
+            @unknown default:
+                intentResponse["errorMessage"] = error?.localizedDescription
+                intentResponse["status"] = "failed"
             }
             
             result(intentResponse)
@@ -117,7 +120,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         let setupIntentConfirmParams = STPSetupIntentConfirmParams(clientSecret: clientSecret)
         setupIntentConfirmParams.paymentMethodID = paymentMethodId
         let paymentManager = STPPaymentHandler.shared()
-        paymentManager.confirmSetupIntent(withParams: setupIntentConfirmParams, authenticationContext: self) { (status, paymentIntent, error) in
+        paymentManager.confirmSetupIntent(setupIntentConfirmParams, with: self) { (status, paymentIntent, error) in
           
             var intentResponse: [String : Any] = ["status":"\(status)", "paymentIntentId" : paymentIntent?.stripeID ?? ""]
             switch (status) {
@@ -128,6 +131,9 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
                 intentResponse["status"] = "canceled"
             case .succeeded:
                 intentResponse["status"] = "succeeded"
+            @unknown default:
+                intentResponse["errorMessage"] = error?.localizedDescription
+                intentResponse["status"] = "failed"
             }
             
             result(intentResponse)
@@ -140,7 +146,7 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         // Setup add card view controller
         let addCardViewController = STPAddCardViewController()
         addCardViewController.delegate = self
-    
+
         // Present add card view controller
         let navigationController = UINavigationController(rootViewController: addCardViewController)
         flutterViewController.present(navigationController, animated: true)
@@ -170,7 +176,6 @@ public class StripePaymentDelegate : NSObject, IDelegate, STPAddCardViewControll
         let flutterViewController = UIApplication.shared.delegate?.window?!.rootViewController as! FlutterViewController
         channel.invokeMethod("onCancel", arguments: nil)
         flutterViewController.dismiss(animated: true)
-        
     }
     
     public func addCardViewController(_ addCardViewController: STPAddCardViewController, didCreatePaymentMethod paymentMethod: STPPaymentMethod, completion: @escaping STPErrorBlock)

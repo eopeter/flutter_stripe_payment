@@ -19,8 +19,7 @@ class FlutterStripePayment {
   ///Configure the environment with your Stripe Publishable Keys and optional Apple Pay Identifiers
   Future<void> setStripeSettings(String stripePublishableKey,
       [String applePayMerchantIdentifier]) async {
-    assert(stripePublishableKey != null);
-    final Map<String, Object> args = <String, dynamic>{
+    final Map<String, dynamic> args = <String, dynamic>{
       "stripePublishableKey": stripePublishableKey
     };
     if (applePayMerchantIdentifier != null) {
@@ -41,12 +40,8 @@ class FlutterStripePayment {
   ///Use to process immediate payments
   Future<PaymentResponse> confirmPaymentIntent(
       String clientSecret, String stripePaymentMethodId, double amount,
-      [bool isApplePay]) async {
-    assert(clientSecret != null);
-    assert(amount != null);
-    assert(stripePaymentMethodId != null);
-
-    final Map<String, Object> args = <String, dynamic>{
+      [bool isApplePay=false]) async {
+    final Map<String, dynamic> args = <String, dynamic>{
       "clientSecret": clientSecret,
       "paymentMethodId": stripePaymentMethodId,
       "amount": amount,
@@ -60,10 +55,8 @@ class FlutterStripePayment {
   ///Use to setup future payments
   Future<PaymentResponse> setupPaymentIntent(
       String clientSecret, String stripePaymentMethodId,
-      [bool isApplePay]) async {
-    assert(clientSecret != null);
-    assert(stripePaymentMethodId != null);
-    final Map<String, Object> args = <String, dynamic>{
+      [bool isApplePay=false]) async {
+    final Map<String, dynamic> args = <String, dynamic>{
       "clientSecret": clientSecret,
       "paymentMethodId": stripePaymentMethodId,
       "isApplePay": isApplePay ?? false
