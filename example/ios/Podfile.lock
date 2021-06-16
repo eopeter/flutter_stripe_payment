@@ -2,10 +2,10 @@ PODS:
   - Flutter (1.0.0)
   - flutter_stripe_payment (0.0.12):
     - Flutter
-    - Stripe (= 21.3.1)
-  - Stripe (21.3.1):
-    - Stripe/Stripe3DS2 (= 21.3.1)
-  - Stripe/Stripe3DS2 (21.3.1)
+    - Stripe (= 21.6.0)
+  - Stripe (21.6.0):
+    - Stripe/Stripe3DS2 (= 21.6.0)
+  - Stripe/Stripe3DS2 (21.6.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -22,10 +22,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_stripe_payment/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_stripe_payment: 4ffd54df4d842305a5361683d4ed04d8f06182de
-  Stripe: 326a2160ac541eeffafb8b1aa0c9712e3ce8cec7
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_stripe_payment: ed83eea7abdd1456e25ac0eff431028d2972fd46
+  Stripe: 6cc7bb348f4b1fad111129f6ee40eb6682deaefb
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

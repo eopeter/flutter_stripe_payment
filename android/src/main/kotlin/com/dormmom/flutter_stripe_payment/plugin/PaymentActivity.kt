@@ -40,9 +40,9 @@ class PaymentActivity : Activity()
         stripe = Stripe(this,
                 PaymentConfiguration.getInstance(this).publishableKey)
 
-        var showPaymentForm = intent.getBooleanExtra("showPaymentForm", false)
-        var confirmPaymentIntent = intent.getBooleanExtra("confirmPaymentIntent", false)
-        var setupPaymentIntent = intent.getBooleanExtra("setupPaymentIntent", false)
+        val showPaymentForm = intent.getBooleanExtra("showPaymentForm", false)
+        val confirmPaymentIntent = intent.getBooleanExtra("confirmPaymentIntent", false)
+        val setupPaymentIntent = intent.getBooleanExtra("setupPaymentIntent", false)
 
         if(showPaymentForm)
         {
@@ -52,7 +52,7 @@ class PaymentActivity : Activity()
             createPaymentMethod = findViewById(R.id.btn_create_payment_method)
             createPaymentMethod.setOnClickListener {
 
-                val card = cardInputWidget.card
+                val card = cardInputWidget.paymentMethodCreateParams
                 if (card != null) {
                     findViewById<View>(R.id.mProgressBar)?.visibility = View.VISIBLE
                     findViewById<View>(R.id.btn_create_payment_method)?.visibility = View.GONE
@@ -69,28 +69,24 @@ class PaymentActivity : Activity()
 
         if(confirmPaymentIntent)
         {
-            var data = TempHolder.getPaymentData()
-            var params = ConfirmPaymentIntentParams.createWithPaymentMethodId(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
+            val data = TempHolder.getPaymentData()
+            val params = ConfirmPaymentIntentParams.createWithPaymentMethodId(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
             stripe.confirmPayment(this, params);
         }
 
         if(setupPaymentIntent)
         {
-            var data = TempHolder.getPaymentData()
-            var params = ConfirmSetupIntentParams.create(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
+            val data = TempHolder.getPaymentData()
+            val params = ConfirmSetupIntentParams.create(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
             stripe.confirmSetupIntent(this, params);
 
         }
 
     }
 
-    private fun createPaymentMethod(card: Card) {
+    private fun createPaymentMethod(paymentMethodCreateParams: PaymentMethodCreateParams) {
 
         flutterResult = TempHolder.getResult() as MethodChannel.Result
-
-        var paymentMethodParamsCard = card.toPaymentMethodParamsCard()
-        val paymentMethodCreateParams =
-                PaymentMethodCreateParams.create(paymentMethodParamsCard, PaymentMethod.BillingDetails.Builder().build())
 
         stripe.createPaymentMethod(
                 paymentMethodCreateParams,
@@ -103,16 +99,16 @@ class PaymentActivity : Activity()
                         findViewById<View>(R.id.btn_create_payment_method)?.visibility = View.GONE
 
                         if (result.id != null) {
-                            var paymentResponse = mapOf("status" to "succeeded", "paymentMethodId" to (result.id ?: "") )
-                            flutterResult?.success(paymentResponse)
+                            val paymentResponse = mapOf("status" to "succeeded", "paymentMethodId" to (result.id ?: "") )
+                            flutterResult.success(paymentResponse)
                         }
                         finish()
                     }
-                    override fun onError(error: Exception) {
+                    override fun onError(e: Exception) {
                         findViewById<View>(R.id.mProgressBar)?.visibility = View.GONE
                         findViewById<View>(R.id.btn_create_payment_method)?.visibility = View.VISIBLE
-                        var paymentResponse = mapOf("status" to "failed", "errorMessage" to error.message)
-                        flutterResult?.success(paymentResponse)
+                        val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.message)
+                        flutterResult.success(paymentResponse)
                         finish()
                     }
 
@@ -134,27 +130,33 @@ class PaymentActivity : Activity()
 
                         val paymentIntent = result.intent
                         val status = paymentIntent.status
-                        if (status == StripeIntent.Status.Succeeded) {
+                        if (status == StripeIntent.Status.Succeeded || status == StripeIntent.Status.RequiresCapture) {
                             // show success UI
-                            var paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (paymentIntent.id ?: "") )
-                            flutterResult?.success(paymentResponse)
+                            val paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (paymentIntent.id ?: "") )
+                            flutterResult.success(paymentResponse)
                         }
                         else if (StripeIntent.Status.RequiresPaymentMethod == status) {
                             // attempt authentication again or
                             // ask for a new Payment Method
+                            // also id 3d secure fails/declined
+                            paymentIntent.lastPaymentError?.let {
+                                val paymentResponse = mapOf("status" to "failed", "errorMessage" to it.message)
+                                flutterResult.success(paymentResponse)
+                            }
+                            // FIXME: it should call success anyway or flutter part will wait forever
                         }
                         else if(status == StripeIntent.Status.Canceled)
                         {
-                            var paymentResponse = mapOf("status" to "canceled" )
-                            flutterResult?.success(paymentResponse)
+                            val paymentResponse = mapOf("status" to "canceled" )
+                            flutterResult.success(paymentResponse)
                         }
                         finish()
                     }
 
                     override fun onError(e: Exception) {
                         // handle error
-                        var paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
-                        flutterResult?.success(paymentResponse)
+                        val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
+                        flutterResult.success(paymentResponse)
                         finish()
                     }
                 })
@@ -171,8 +173,8 @@ class PaymentActivity : Activity()
                         val status = setupIntent.status
                         if (status == StripeIntent.Status.Succeeded) {
                             // show success UI
-                            var paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (setupIntent.id ?: "") )
-                            flutterResult?.success(paymentResponse)
+                            val paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (setupIntent.id ?: "") )
+                            flutterResult.success(paymentResponse)
                         } else if (setupIntent.requiresConfirmation()) {
                             // handle confirmation
                         }
@@ -181,8 +183,8 @@ class PaymentActivity : Activity()
 
                     override fun onError(e: Exception) {
                         // handle error
-                        var paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
-                        flutterResult?.success(paymentResponse)
+                        val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
+                        flutterResult.success(paymentResponse)
                         finish()
                     }
                 })

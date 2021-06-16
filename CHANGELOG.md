@@ -1,3 +1,7 @@
+## 0.0.14
+
+* Null Safety
+
 ## 0.0.13
 
 * Stripe Version Upgrade

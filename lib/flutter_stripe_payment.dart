@@ -11,14 +11,14 @@ class FlutterStripePayment {
   }
 
   ///Called when user cancels the Payment Method form
-  void Function() onCancel;
+  void Function()? onCancel;
 
   //Listen for Errors
-  Function(int errorCode, [String errorMessage]) onError;
+  Function(int errorCode, [String errorMessage])? onError;
 
   ///Configure the environment with your Stripe Publishable Keys and optional Apple Pay Identifiers
   Future<void> setStripeSettings(String stripePublishableKey,
-      [String applePayMerchantIdentifier]) async {
+      [String? applePayMerchantIdentifier]) async {
     final Map<String, dynamic> args = <String, dynamic>{
       "stripePublishableKey": stripePublishableKey
     };
@@ -45,7 +45,7 @@ class FlutterStripePayment {
       "clientSecret": clientSecret,
       "paymentMethodId": stripePaymentMethodId,
       "amount": amount,
-      "isApplePay": isApplePay ?? false
+      "isApplePay": isApplePay
     };
     var response = await _channel.invokeMethod('confirmPaymentIntent', args);
     var paymentResponse = PaymentResponse.fromJson(response);
@@ -59,7 +59,7 @@ class FlutterStripePayment {
     final Map<String, dynamic> args = <String, dynamic>{
       "clientSecret": clientSecret,
       "paymentMethodId": stripePaymentMethodId,
-      "isApplePay": isApplePay ?? false
+      "isApplePay": isApplePay
     };
     var response = await _channel.invokeMethod('setupPaymentIntent', args);
     var paymentResponse = PaymentResponse.fromJson(response);
@@ -92,10 +92,10 @@ class FlutterStripePayment {
 }
 
 class PaymentResponse {
-  PaymentResponseStatus status;
-  String paymentIntentId;
-  String paymentMethodId;
-  String errorMessage;
+  PaymentResponseStatus? status;
+  String? paymentIntentId;
+  String? paymentMethodId;
+  String? errorMessage;
 
   PaymentResponse.fromJson(Map json) {
     this.paymentIntentId = json["paymentIntentId"] as String;
@@ -106,9 +106,6 @@ class PaymentResponse {
   }
 
   T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
-    if (source == null) {
-      return null;
-    }
     return _$enumDecode<T>(enumValues, source);
   }
 

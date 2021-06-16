@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'flutter_stripe_payment'
-  s.version          = '0.0.12'
+  s.version          = '0.0.13'
   s.summary          = 'Add Stripe to your Flutter Application to Accept Card Payments Using Payment Intents with Strong SCA 3DS Compliance'
   s.description      = <<-DESC
 A new flutter plugin project.
@@ -15,7 +15,7 @@ A new flutter plugin project.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'Stripe','21.3.1'
+  s.dependency 'Stripe','21.6.0'
   s.platform = :ios, '13.0'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
