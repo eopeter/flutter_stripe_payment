@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:flutter_stripe_payment/flutter_stripe_payment.dart';
 
 void main() => runApp(MyApp());
@@ -45,7 +42,7 @@ class _MyAppState extends State<MyApp> {
                   : Container(
                       child: Text(_errorMessage),
                     ),
-              RaisedButton(
+              ElevatedButton(
                 child: Text("Add Card"),
                 onPressed: () async {
                   var paymentResponse = await _stripePayment.addPaymentMethod();

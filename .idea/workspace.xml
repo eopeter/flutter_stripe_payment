@@ -5,43 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c3be0e2-8cfe-410c-be8a-e17c5175095b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/kotlin/com/dormmom/flutter_stripe_payment/plugin/PaymentActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/kotlin/com/dormmom/flutter_stripe_payment/plugin/PaymentActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/example/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/.idea/runConfigurations.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/android/src/main/kotlin/com/dormmom/flutter_stripe_payment/plugin/PaymentActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/android/src/main/kotlin/com/dormmom/flutter_stripe_payment/plugin/PaymentActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Flutter/Flutter.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Flutter/Flutter.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/ios/flutter_stripe_payment.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/ios/flutter_stripe_payment.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/lib/flutter_stripe_payment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/lib/flutter_stripe_payment.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/Flutter.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/Flutter.podspec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.xcworkspace/contents.xcworkspacedata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/example/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/flutter_stripe_payment.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/ios/flutter_stripe_payment.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/test/flutter_stripe_payment_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/.symlinks/plugins/flutter_stripe_payment/test/flutter_stripe_payment_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/flutter_stripe_payment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_stripe_payment.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/flutter_stripe_payment_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/flutter_stripe_payment_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/eopeter/.android/avd/pixel_xl_device.avd]" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -74,21 +58,29 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1358" height="312" key="GridCell.Tab.0.bottom" timestamp="1623865015976">
-      <screen x="0" y="25" width="1680" height="953" />
+    <state width="1358" height="312" key="GridCell.Tab.0.bottom" timestamp="1623874719174">
+      <screen x="0" y="25" width="1680" height="956" />
     </state>
     <state width="1358" height="312" key="GridCell.Tab.0.bottom/1680.25.5120.1415/0.25.1680.953@0.25.1680.953" timestamp="1623865015976" />
-    <state width="1358" height="312" key="GridCell.Tab.0.center" timestamp="1623865015974">
-      <screen x="0" y="25" width="1680" height="953" />
+    <state width="1358" height="312" key="GridCell.Tab.0.bottom/1680.25.5120.1415/0.25.1680.954@0.25.1680.954" timestamp="1623871446534" />
+    <state width="1358" height="312" key="GridCell.Tab.0.bottom/1680.25.5120.1415/0.25.1680.956@0.25.1680.956" timestamp="1623874719174" />
+    <state width="1358" height="312" key="GridCell.Tab.0.center" timestamp="1623874719173">
+      <screen x="0" y="25" width="1680" height="956" />
     </state>
     <state width="1358" height="312" key="GridCell.Tab.0.center/1680.25.5120.1415/0.25.1680.953@0.25.1680.953" timestamp="1623865015974" />
-    <state width="1358" height="312" key="GridCell.Tab.0.left" timestamp="1623865015974">
-      <screen x="0" y="25" width="1680" height="953" />
+    <state width="1358" height="312" key="GridCell.Tab.0.center/1680.25.5120.1415/0.25.1680.954@0.25.1680.954" timestamp="1623871446533" />
+    <state width="1358" height="312" key="GridCell.Tab.0.center/1680.25.5120.1415/0.25.1680.956@0.25.1680.956" timestamp="1623874719173" />
+    <state width="1358" height="312" key="GridCell.Tab.0.left" timestamp="1623874719172">
+      <screen x="0" y="25" width="1680" height="956" />
     </state>
     <state width="1358" height="312" key="GridCell.Tab.0.left/1680.25.5120.1415/0.25.1680.953@0.25.1680.953" timestamp="1623865015974" />
-    <state width="1358" height="312" key="GridCell.Tab.0.right" timestamp="1623865015975">
-      <screen x="0" y="25" width="1680" height="953" />
+    <state width="1358" height="312" key="GridCell.Tab.0.left/1680.25.5120.1415/0.25.1680.954@0.25.1680.954" timestamp="1623871446532" />
+    <state width="1358" height="312" key="GridCell.Tab.0.left/1680.25.5120.1415/0.25.1680.956@0.25.1680.956" timestamp="1623874719172" />
+    <state width="1358" height="312" key="GridCell.Tab.0.right" timestamp="1623874719173">
+      <screen x="0" y="25" width="1680" height="956" />
     </state>
     <state width="1358" height="312" key="GridCell.Tab.0.right/1680.25.5120.1415/0.25.1680.953@0.25.1680.953" timestamp="1623865015975" />
+    <state width="1358" height="312" key="GridCell.Tab.0.right/1680.25.5120.1415/0.25.1680.954@0.25.1680.954" timestamp="1623871446534" />
+    <state width="1358" height="312" key="GridCell.Tab.0.right/1680.25.5120.1415/0.25.1680.956@0.25.1680.956" timestamp="1623874719173" />
   </component>
 </project>

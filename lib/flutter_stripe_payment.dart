@@ -98,9 +98,9 @@ class PaymentResponse {
   String? errorMessage;
 
   PaymentResponse.fromJson(Map json) {
-    this.paymentIntentId = json["paymentIntentId"] as String;
-    this.paymentMethodId = json["paymentMethodId"] as String;
-    this.errorMessage = json["errorMessage"] as String;
+    this.paymentIntentId = json["paymentIntentId"] as String?;
+    this.paymentMethodId = json["paymentMethodId"] as String?;
+    this.errorMessage = json["errorMessage"] as String?;
     this.status =
         _$enumDecodeNullable(_$PaymentResponseStatusEnumMap, json['status']);
   }
