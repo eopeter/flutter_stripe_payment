@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 
 import com.dormmom.flutter_stripe_payment.models.TempHolder
 import com.stripe.android.*
@@ -13,7 +15,7 @@ import com.stripe.android.view.CardMultilineWidget
 
 import io.flutter.plugin.common.MethodChannel
 
-class PaymentActivity : Activity()
+class PaymentActivity : AppCompatActivity()
 {
     private lateinit var flutterResult: MethodChannel.Result;
     private lateinit var stripe: Stripe
@@ -70,14 +72,21 @@ class PaymentActivity : Activity()
         if(confirmPaymentIntent)
         {
             val data = TempHolder.getPaymentData()
-            val params = ConfirmPaymentIntentParams.createWithPaymentMethodId(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
+            val params = ConfirmPaymentIntentParams.createWithPaymentMethodId(
+                data!!.paymentMethodId,
+                data.clientSecret,
+                true
+            )
             stripe.confirmPayment(this, params);
         }
 
         if(setupPaymentIntent)
         {
             val data = TempHolder.getPaymentData()
-            val params = ConfirmSetupIntentParams.create(data!!.paymentMethodId, data.clientSecret, "stripe://create_payment_intent_return")
+            val params = ConfirmSetupIntentParams.create(
+                data!!.paymentMethodId,
+                data.clientSecret
+            )
             stripe.confirmSetupIntent(this, params);
 
         }
@@ -116,7 +125,7 @@ class PaymentActivity : Activity()
 
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         flutterResult = TempHolder.getResult() as MethodChannel.Result
 

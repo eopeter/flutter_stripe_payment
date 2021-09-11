@@ -55,6 +55,26 @@ class _MyAppState extends State<MyApp> {
                     }
                   });
                 },
+              ),
+              ElevatedButton(
+                child: Text("Get Apple Pay Token"),
+                onPressed: () async {
+                  var paymentItems =
+                      PaymentItem(label: 'Air Jordan Kicks', amount: 249.99);
+                  var stripeToken = await _stripePayment.getTokenFromApplePay(
+                      countryCode: "US",
+                      currencyCode: "USD",
+                      paymentNetworks: [
+                        PaymentNetwork.visa,
+                        PaymentNetwork.mastercard,
+                        PaymentNetwork.amex,
+                        PaymentNetwork.discover
+                      ],
+                      merchantName: "Nike Inc.",
+                      isPending: false,
+                      paymentItems: [paymentItems]);
+                  print("Stripe Payment Token from Apple Pay: $stripeToken");
+                },
               )
             ],
           ),

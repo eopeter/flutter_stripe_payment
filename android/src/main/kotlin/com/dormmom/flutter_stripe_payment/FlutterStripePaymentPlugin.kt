@@ -12,7 +12,7 @@ import io.flutter.plugin.common.*
 import io.flutter.plugin.platform.PlatformViewsController
 
 class FlutterStripePaymentPlugin: FlutterPlugin, ActivityAware {
-    
+
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         setUpPluginMethods(flutterPluginBinding.applicationContext, flutterPluginBinding.binaryMessenger);
     }
@@ -21,9 +21,8 @@ class FlutterStripePaymentPlugin: FlutterPlugin, ActivityAware {
 
         lateinit var pluginInstance: FlutterStripeFactory
         private lateinit var channel : MethodChannel
-        private var event_channel: EventChannel? = null
+        private lateinit var eventChannel: EventChannel
         private var currentActivity: Activity? = null
-        private val  PLUGIN_NAME = "flutter_stripe_payment"
 
         @JvmStatic
         var view_name = "com.dormmom.flutter_stripe_payment/stripeView"
@@ -51,27 +50,27 @@ class FlutterStripePaymentPlugin: FlutterPlugin, ActivityAware {
         @JvmStatic
         private fun setUpPluginMethods(context: Context, messenger: BinaryMessenger, activity: Activity? = null ) {
 
-            channel = MethodChannel(messenger, PLUGIN_NAME)
-            event_channel = EventChannel(messenger, PLUGIN_NAME)
+            channel = MethodChannel(messenger, "flutter_stripe_payment")
+            eventChannel = EventChannel(messenger, "flutter_stripe_payment_event")
 
             pluginInstance = FlutterStripeFactory(messenger = messenger , context = context)
-   
+
             if(activity != null)
                 pluginInstance.activity = activity;
 
-            channel?.setMethodCallHandler(pluginInstance)
-            event_channel?.setStreamHandler(pluginInstance)
+            channel.setMethodCallHandler(pluginInstance)
+            eventChannel.setStreamHandler(pluginInstance)
         }
 
     }
 
-    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         currentActivity = null
-        channel?.setMethodCallHandler(null)
-        event_channel?.setStreamHandler(null)
+        channel.setMethodCallHandler(null)
+        eventChannel.setStreamHandler(null)
     }
 
-    override fun onAttachedToActivity(activityPluginBinding: ActivityPluginBinding) {
+    override fun onAttachedToActivity(@NonNull activityPluginBinding: ActivityPluginBinding) {
         currentActivity = activityPluginBinding.activity
         pluginInstance.activity = activityPluginBinding.activity
     }
@@ -93,9 +92,5 @@ class FlutterStripePaymentPlugin: FlutterPlugin, ActivityAware {
 
 
 }
-
-
-
-
 
 
