@@ -92,6 +92,7 @@ class FlutterStripePayment {
     _channel.setMethodCallHandler(platformCallHandler);
   }
 
+  // preparePaymentSheet prepares a payment sheet for showing to user
   Future<bool> preparePaymentSheet({
     required String merchantDisplayName,
     required String customerId,
@@ -108,6 +109,7 @@ class FlutterStripePayment {
     return (success as String == "true");
   }
 
+  // showPaymentSheet will show the payment options available to the user
   Future<PaymentResponse> showPaymentSheet() async {
     var response = await _channel.invokeMethod('showPaymentSheet', null);
     var paymentResponse = PaymentResponse.fromJson(response);
@@ -133,7 +135,7 @@ class FlutterStripePayment {
       'isPending': isPending
     };
     final dynamic stripeToken =
-    await _channel.invokeMethod('getPaymentMethodFromNativePay', args);
+        await _channel.invokeMethod('getPaymentMethodFromNativePay', args);
     return stripeToken;
   }
 
