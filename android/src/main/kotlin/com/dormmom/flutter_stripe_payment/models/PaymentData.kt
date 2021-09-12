@@ -1,16 +1,13 @@
 package com.dormmom.flutter_stripe_payment.models
 
-class PaymentData(clientSecret: String,  amount: Double?, paymentIntentId: String, paymentMethodId: String)
+class PaymentData()
 {
-    var paymentMethodId: String
-    var clientSecret: String
+    var merchantName: String? = null
+    var currencyCode: String? = null
+    var countryCode: String? = null
+    var isProductionEnvironment: Boolean = false
+    var paymentMethodId: String? = null
+    var clientSecret: String? = null
     var paymentIntentId: String? = null
     var amount: Double? = null
-
-    init {
-        this.paymentMethodId = paymentMethodId
-        this.clientSecret = clientSecret
-        this.paymentIntentId = paymentIntentId
-        this.amount = amount
-    }
 }

@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.dormmom.flutter_stripe_payment">
-    <application android:theme="@style/Theme.AppCompat.Light">
-        <activity android:label="Add Payment Method" android:name="PaymentActivity" android:theme="@android:style/Theme.Holo.Light.Dialog.NoActionBar" />
+    <application android:theme="@style/Theme.AppCompat.Light.Dialog">
+        <activity android:label="Add Payment Method" android:name=".activity.PaymentActivity"  />
+        <activity android:label="Google Pay" android:name=".activity.GooglePayActivity"  />
     </application>
 </manifest>

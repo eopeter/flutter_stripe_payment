@@ -1,12 +1,11 @@
-package com.dormmom.flutter_stripe_payment
+package com.dormmom.flutter_stripe_payment.activity
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
+import com.dormmom.flutter_stripe_payment.R
 
 import com.dormmom.flutter_stripe_payment.models.TempHolder
 import com.stripe.android.*
@@ -73,8 +72,8 @@ class PaymentActivity : AppCompatActivity()
         {
             val data = TempHolder.getPaymentData()
             val params = ConfirmPaymentIntentParams.createWithPaymentMethodId(
-                data!!.paymentMethodId,
-                data.clientSecret,
+                data!!.paymentMethodId!!,
+                data.clientSecret!!,
                 true
             )
             stripe.confirmPayment(this, params);
@@ -84,8 +83,8 @@ class PaymentActivity : AppCompatActivity()
         {
             val data = TempHolder.getPaymentData()
             val params = ConfirmSetupIntentParams.create(
-                data!!.paymentMethodId,
-                data.clientSecret
+                data!!.paymentMethodId!!,
+                data.clientSecret!!
             )
             stripe.confirmSetupIntent(this, params);
 

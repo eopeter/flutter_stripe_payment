@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe_payment/flutter_stripe_payment.dart';
 
@@ -57,22 +59,24 @@ class _MyAppState extends State<MyApp> {
                 },
               ),
               ElevatedButton(
-                child: Text("Get Apple Pay Token"),
+                child: Text(
+                    "Get ${Platform.isIOS ? "Apple" : (Platform.isAndroid ? "Google" : "Native")} Pay Token"),
                 onPressed: () async {
                   var paymentItems =
                       PaymentItem(label: 'Air Jordan Kicks', amount: 249.99);
-                  var stripeToken = await _stripePayment.getTokenFromApplePay(
-                      countryCode: "US",
-                      currencyCode: "USD",
-                      paymentNetworks: [
-                        PaymentNetwork.visa,
-                        PaymentNetwork.mastercard,
-                        PaymentNetwork.amex,
-                        PaymentNetwork.discover
-                      ],
-                      merchantName: "Nike Inc.",
-                      isPending: false,
-                      paymentItems: [paymentItems]);
+                  var stripeToken =
+                      await _stripePayment.getPaymentMethodFromNativePay(
+                          countryCode: "US",
+                          currencyCode: "USD",
+                          paymentNetworks: [
+                            PaymentNetwork.visa,
+                            PaymentNetwork.mastercard,
+                            PaymentNetwork.amex,
+                            PaymentNetwork.discover
+                          ],
+                          merchantName: "Nike Inc.",
+                          isPending: false,
+                          paymentItems: [paymentItems]);
                   print("Stripe Payment Token from Apple Pay: $stripeToken");
                 },
               )

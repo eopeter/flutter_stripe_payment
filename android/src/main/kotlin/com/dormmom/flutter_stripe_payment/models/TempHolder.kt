@@ -9,7 +9,7 @@ object TempHolder {
         return flutterResult
     }
 
-    fun setData(result: MethodChannel.Result){
+    fun setChannelResult(result: MethodChannel.Result){
         flutterResult = result
     }
 

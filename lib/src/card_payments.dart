@@ -114,7 +114,8 @@ class FlutterStripePayment {
     return paymentResponse;
   }
 
-  Future<dynamic> getTokenFromApplePay(
+  // getTokenFromNativePay presents Apple Pay on iOS and Google Pay on Android if available
+  Future<dynamic> getPaymentMethodFromNativePay(
       {required String countryCode,
       required String currencyCode,
       required List<PaymentNetwork> paymentNetworks,
@@ -131,13 +132,9 @@ class FlutterStripePayment {
       'merchantName': merchantName,
       'isPending': isPending
     };
-    if (Platform.isIOS) {
-      final dynamic stripeToken =
-          await _channel.invokeMethod('getTokenFromApplePay', args);
-      return stripeToken;
-    } else {
-      throw Exception("Apple Pay Only Available on iOS for Now");
-    }
+    final dynamic stripeToken =
+    await _channel.invokeMethod('getPaymentMethodFromNativePay', args);
+    return stripeToken;
   }
 
   // closeApplePaySheet closes an open ApplePay sheet

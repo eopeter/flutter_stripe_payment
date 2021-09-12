@@ -3,6 +3,7 @@ package com.dormmom.flutter_stripe_payment
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.NonNull
+import androidx.appcompat.app.AppCompatActivity
 
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.FlutterPlugin

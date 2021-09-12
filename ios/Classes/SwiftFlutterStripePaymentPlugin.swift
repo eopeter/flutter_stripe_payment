@@ -63,7 +63,7 @@ public class SwiftFlutterStripePaymentPlugin: NSObject, FlutterPlugin {
             
             delegate.setupPaymentIntent(clientSecret: clientSecret, paymentMethodId: paymentMethodId, isApplePay: isApplePay ?? false, result: result)
         }
-        else if(call.method == "getTokenFromApplePay") {
+        else if(call.method == "getPaymentMethodFromNativePay") {
             delegate.showApplePaySheet(arguments: arguments!, result: result)
         }
         else if call.method == "closeApplePaySheetWithSuccess" {
