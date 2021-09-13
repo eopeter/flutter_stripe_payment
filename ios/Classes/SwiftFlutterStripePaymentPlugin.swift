@@ -12,11 +12,15 @@ protocol IFlutterStripePaymentDelegate {
     func handleAddPaymentOptionButtonTapped(result: @escaping FlutterResult)
     func confirmPaymentIntent(clientSecret: String, paymentMethodId: String, amount: Double, isApplePay: Bool, result: @escaping FlutterResult)
     func setupPaymentIntent(clientSecret: String, paymentMethodId: String, isApplePay: Bool, result: @escaping FlutterResult)
+    
+    func isNativePayAvailable(result: @escaping FlutterResult)
     func showApplePaySheet(arguments: NSDictionary, result: @escaping FlutterResult)
-    func preparePaymentSheet(arguments: NSDictionary, result: @escaping FlutterResult)
-    func showPaymentSheet(arguments: NSDictionary, result: @escaping FlutterResult)
     func closeApplePaySheetWithSuccess()
     func closeApplePaySheetWithError()
+    
+    func preparePaymentSheet(arguments: NSDictionary, result: @escaping FlutterResult)
+    func showPaymentSheet(arguments: NSDictionary, result: @escaping FlutterResult)
+    
 }
 
 public class SwiftFlutterStripePaymentPlugin: NSObject, FlutterPlugin {
@@ -62,6 +66,9 @@ public class SwiftFlutterStripePaymentPlugin: NSObject, FlutterPlugin {
             let isApplePay = arguments?["isApplePay"] as? Bool
             
             delegate.setupPaymentIntent(clientSecret: clientSecret, paymentMethodId: paymentMethodId, isApplePay: isApplePay ?? false, result: result)
+        }
+        else if (call.method == "isNativePayAvailable") {
+            delegate.isNativePayAvailable(result: result)
         }
         else if(call.method == "getPaymentMethodFromNativePay") {
             delegate.showApplePaySheet(arguments: arguments!, result: result)
@@ -220,6 +227,12 @@ public class StripePaymentDelegate : NSObject, IFlutterStripePaymentDelegate, ST
                 paymentResponse["errorMessage"] = error.localizedDescription
             }
         }
+    }
+    
+    func isNativePayAvailable(result: @escaping FlutterResult) {
+        
+        let isAvailable = PKPaymentAuthorizationViewController.canMakePayments()
+        result(isAvailable)
     }
     
     func showApplePaySheet(arguments: NSDictionary, result: @escaping FlutterResult) {

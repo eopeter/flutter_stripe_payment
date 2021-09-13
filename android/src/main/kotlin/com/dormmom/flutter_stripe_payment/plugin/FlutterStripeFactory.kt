@@ -13,6 +13,9 @@ import com.dormmom.flutter_stripe_payment.models.TempHolder
 import com.stripe.android.PaymentAuthConfig
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
+import com.stripe.android.googlepaylauncher.GooglePayEnvironment
+import com.stripe.android.googlepaylauncher.GooglePayLauncher
+import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
 import com.stripe.android.paymentsheet.PaymentSheet
 import com.stripe.android.paymentsheet.PaymentSheetResult
 import io.flutter.plugin.common.BinaryMessenger
@@ -40,6 +43,7 @@ class FlutterStripeFactory internal constructor(private val context: Context, me
     private var paymentIntentClientSecret: String? = null
     private var merchantName: String? = null
     var stripeSettingsComplete = false;
+    var flutterResult: MethodChannel.Result? = null;
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
 
@@ -69,6 +73,9 @@ class FlutterStripeFactory internal constructor(private val context: Context, me
                 if (paymentMethodId != null && clientSecret != null) {
                     this.setupPaymentIntent(paymentMethodId, clientSecret, result)
                 }
+            }
+            "isNativePayAvailable" -> {
+                this.isNativePayAvailable(arguments, result);
             }
             "getPaymentMethodFromNativePay" -> {
                 this.showGooglePaySheet(arguments, result)
@@ -138,6 +145,19 @@ class FlutterStripeFactory internal constructor(private val context: Context, me
         TempHolder.setPaymentData(paymentData)
         val intent = Intent(context, PaymentActivity::class.java)
         intent.putExtra("setupPaymentIntent", true)
+        activity?.startActivity(intent)
+    }
+
+    private fun isNativePayAvailable(arguments: Map<*, *>?, result: MethodChannel.Result) {
+        TempHolder.setChannelResult(result)
+        val merchantName = arguments?.get("merchantName") as? String
+        val countryCode = arguments?.get("countryCode") as? String
+        val paymentData = PaymentData()
+        paymentData.merchantName = merchantName ?: "Merchant";
+        paymentData.countryCode = countryCode ?: "USD";
+        TempHolder.setPaymentData(paymentData)
+        val intent = Intent(context, GooglePayActivity::class.java)
+        intent.putExtra("checkIsAvailable", true)
         activity?.startActivity(intent)
     }
 

@@ -14,6 +14,7 @@ class _MyAppState extends State<MyApp> {
   String _paymentMethodId;
   String _errorMessage = "";
   final _stripePayment = FlutterStripePayment();
+  var _isNativePayAvailable = false;
 
   @override
   void initState() {
@@ -23,8 +24,15 @@ class _MyAppState extends State<MyApp> {
     _stripePayment.onCancel = () {
       print("the payment form was cancelled");
     };
+    checkIfAppleOrGooglePayIsAvailable();
   }
 
+  void checkIfAppleOrGooglePayIsAvailable() async {
+    var available = await _stripePayment.isNativePayAvailable();
+    setState(() {
+      _isNativePayAvailable = available;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,7 +53,7 @@ class _MyAppState extends State<MyApp> {
                       child: Text(_errorMessage),
                     ),
               ElevatedButton(
-                child: Text("Add Card"),
+                child: Text("Create a Card Payment Method"),
                 onPressed: () async {
                   var paymentResponse = await _stripePayment.addPaymentMethod();
                   setState(() {
@@ -61,9 +69,13 @@ class _MyAppState extends State<MyApp> {
               ElevatedButton(
                 child: Text(
                     "Get ${Platform.isIOS ? "Apple" : (Platform.isAndroid ? "Google" : "Native")} Pay Token"),
-                onPressed: () async {
-                  var paymentItems =
+                onPressed: !_isNativePayAvailable ? null : () async {
+                  var paymentItem =
                       PaymentItem(label: 'Air Jordan Kicks', amount: 249.99);
+                  var taxItem =
+                  PaymentItem(label: 'NY Sales Tax', amount: 21.87);
+                  var shippingItem =
+                  PaymentItem(label: 'Shipping', amount: 5.99);
                   var stripeToken =
                       await _stripePayment.getPaymentMethodFromNativePay(
                           countryCode: "US",
@@ -76,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                           ],
                           merchantName: "Nike Inc.",
                           isPending: false,
-                          paymentItems: [paymentItems]);
+                          paymentItems: [paymentItem, shippingItem, taxItem]);
                   print("Stripe Payment Token from Apple Pay: $stripeToken");
                 },
               )

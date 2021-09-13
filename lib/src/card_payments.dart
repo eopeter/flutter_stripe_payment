@@ -116,6 +116,11 @@ class FlutterStripePayment {
     return paymentResponse;
   }
 
+  Future<bool> isNativePayAvailable() async {
+    var available = await _channel.invokeMethod('isNativePayAvailable', null);
+    return available;
+  }
+
   // getTokenFromNativePay presents Apple Pay on iOS and Google Pay on Android if available
   Future<dynamic> getPaymentMethodFromNativePay(
       {required String countryCode,

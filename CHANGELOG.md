@@ -1,3 +1,6 @@
+## 0.0.17
+Add isAvailable check for NativePay
+
 ## 0.0.16
 Payment intent dialog bug fix
 

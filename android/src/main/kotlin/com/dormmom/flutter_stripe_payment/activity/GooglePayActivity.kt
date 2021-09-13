@@ -12,6 +12,7 @@ class GooglePayActivity: AppCompatActivity() {
 
     private lateinit var flutterResult: MethodChannel.Result;
     private lateinit var googlePayLauncher: GooglePayPaymentMethodLauncher;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.google_pay_activity)
@@ -24,26 +25,37 @@ class GooglePayActivity: AppCompatActivity() {
             config = GooglePayPaymentMethodLauncher.Config(
                 environment = env,
                 merchantCountryCode = data.countryCode!!,
-                merchantName = data.merchantName!!
+                merchantName = data.merchantName!!,
+                billingAddressConfig = GooglePayPaymentMethodLauncher.BillingAddressConfig(
+                    isRequired = true,
+                    format = GooglePayPaymentMethodLauncher.BillingAddressConfig.Format.Full,
+                    isPhoneNumberRequired = true
+                )
             ),
             readyCallback = ::onGooglePayReady,
             resultCallback = ::onGooglePayResult
         )
-
     }
 
     private fun onGooglePayReady(isReady: Boolean) {
         flutterResult = TempHolder.getResult() as MethodChannel.Result
-        if(isReady) {
-            val data = TempHolder.getPaymentData()
-            googlePayLauncher.present(
-                currencyCode = data!!.currencyCode!!,
-                amount = data.amount!!.toInt()
-            )
-        }else{
-            flutterResult.error("400", "Google Pay Not Available", "Google Pay is Not Available on this device")
-            finish()
+        flutterResult.success(isReady)
+        val checkIsAvailable = intent.getBooleanExtra("checkIsAvailable", false)
+        if (checkIsAvailable)
+            finish();
+        else{
+            if (isReady) {
+                presentGooglePay()
+            }
         }
+    }
+
+    private fun presentGooglePay() {
+        val data = TempHolder.getPaymentData()
+        googlePayLauncher.present(
+            currencyCode = data!!.currencyCode!!,
+            amount = data.amount!!.toInt()
+        )
     }
 
     private fun onGooglePayResult(
