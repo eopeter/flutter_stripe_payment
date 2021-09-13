@@ -1,3 +1,6 @@
+## 0.0.16
+Payment intent dialog bug fix
+
 ## 0.0.15
 Android Bug Fix
 

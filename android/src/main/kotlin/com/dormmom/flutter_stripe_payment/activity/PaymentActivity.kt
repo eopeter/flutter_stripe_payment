@@ -77,6 +77,7 @@ class PaymentActivity : AppCompatActivity()
                 true
             )
             stripe.confirmPayment(this, params);
+            finish()
         }
 
         if(setupPaymentIntent)
@@ -87,6 +88,7 @@ class PaymentActivity : AppCompatActivity()
                 data.clientSecret!!
             )
             stripe.confirmSetupIntent(this, params);
+            finish()
 
         }
 
