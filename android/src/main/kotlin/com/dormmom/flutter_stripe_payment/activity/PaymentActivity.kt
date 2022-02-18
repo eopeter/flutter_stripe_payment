@@ -50,6 +50,7 @@ class PaymentActivity : AppCompatActivity()
             setContentView(R.layout.card_input_widget)
 
             cardInputWidget = findViewById(R.id.card_input_widget)
+            cardInputWidget.setShouldShowPostalCode(false)
             createPaymentMethod = findViewById(R.id.btn_create_payment_method)
             createPaymentMethod.setOnClickListener {
 
