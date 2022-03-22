@@ -11,16 +11,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _paymentMethodId;
-  String _errorMessage = "";
+  String? _paymentMethodId;
+  String? _errorMessage = "";
   final _stripePayment = FlutterStripePayment();
   var _isNativePayAvailable = false;
 
   @override
   void initState() {
     super.initState();
-    _stripePayment.setStripeSettings(
-        "{STRIPE_PUBLISHABLE_KEY}", "{STRIPE_APPLE_PAY_MERCHANTID}");
+    _stripePayment.setStripeSettings("{STRIPE_PUBLISHABLE_KEY}", "{STRIPE_APPLE_PAY_MERCHANTID}");
     _stripePayment.onCancel = () {
       print("the payment form was cancelled");
     };
@@ -33,6 +32,7 @@ class _MyAppState extends State<MyApp> {
       _isNativePayAvailable = available;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,15 +50,14 @@ class _MyAppState extends State<MyApp> {
                       textAlign: TextAlign.center,
                     )
                   : Container(
-                      child: Text(_errorMessage),
+                      child: Text(_errorMessage!),
                     ),
               ElevatedButton(
                 child: Text("Create a Card Payment Method"),
                 onPressed: () async {
                   var paymentResponse = await _stripePayment.addPaymentMethod();
                   setState(() {
-                    if (paymentResponse.status ==
-                        PaymentResponseStatus.succeeded) {
+                    if (paymentResponse.status == PaymentResponseStatus.succeeded) {
                       _paymentMethodId = paymentResponse.paymentMethodId;
                     } else {
                       _errorMessage = paymentResponse.errorMessage;
@@ -67,30 +66,28 @@ class _MyAppState extends State<MyApp> {
                 },
               ),
               ElevatedButton(
-                child: Text(
-                    "Get ${Platform.isIOS ? "Apple" : (Platform.isAndroid ? "Google" : "Native")} Pay Token"),
-                onPressed: !_isNativePayAvailable ? null : () async {
-                  var paymentItem =
-                      PaymentItem(label: 'Air Jordan Kicks', amount: 249.99);
-                  var taxItem =
-                  PaymentItem(label: 'NY Sales Tax', amount: 21.87);
-                  var shippingItem =
-                  PaymentItem(label: 'Shipping', amount: 5.99);
-                  var stripeToken =
-                      await _stripePayment.getPaymentMethodFromNativePay(
-                          countryCode: "US",
-                          currencyCode: "USD",
-                          paymentNetworks: [
-                            PaymentNetwork.visa,
-                            PaymentNetwork.mastercard,
-                            PaymentNetwork.amex,
-                            PaymentNetwork.discover
-                          ],
-                          merchantName: "Nike Inc.",
-                          isPending: false,
-                          paymentItems: [paymentItem, shippingItem, taxItem]);
-                  print("Stripe Payment Token from Apple Pay: $stripeToken");
-                },
+                child:
+                    Text("Get ${Platform.isIOS ? "Apple" : (Platform.isAndroid ? "Google" : "Native")} Pay Token"),
+                onPressed: !_isNativePayAvailable
+                    ? null
+                    : () async {
+                        var paymentItem = PaymentItem(label: 'Air Jordan Kicks', amount: 249.99);
+                        var taxItem = PaymentItem(label: 'NY Sales Tax', amount: 21.87);
+                        var shippingItem = PaymentItem(label: 'Shipping', amount: 5.99);
+                        var stripeToken = await _stripePayment.getPaymentMethodFromNativePay(
+                            countryCode: "US",
+                            currencyCode: "USD",
+                            paymentNetworks: [
+                              PaymentNetwork.visa,
+                              PaymentNetwork.mastercard,
+                              PaymentNetwork.amex,
+                              PaymentNetwork.discover
+                            ],
+                            merchantName: "Nike Inc.",
+                            isPending: false,
+                            paymentItems: [paymentItem, shippingItem, taxItem]);
+                        print("Stripe Payment Token from Apple Pay: $stripeToken");
+                      },
               )
             ],
           ),

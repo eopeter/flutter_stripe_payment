@@ -78,7 +78,7 @@ class PaymentActivity : AppCompatActivity()
                 true
             )
             stripe.confirmPayment(this, params);
-            finish()
+//            finish()
         }
 
         if(setupPaymentIntent)
@@ -89,7 +89,7 @@ class PaymentActivity : AppCompatActivity()
                 data.clientSecret!!
             )
             stripe.confirmSetupIntent(this, params);
-            finish()
+//            finish()
 
         }
 
@@ -132,73 +132,73 @@ class PaymentActivity : AppCompatActivity()
         flutterResult = TempHolder.getResult() as MethodChannel.Result
 
         stripe.onPaymentResult(requestCode, data,
-                object : ApiResultCallback<PaymentIntentResult> {
-                    override fun onSuccess(result: PaymentIntentResult) {
-                        // If authentication succeeded, the PaymentIntent will have
-                        // user actions resolved; otherwise, handle the PaymentIntent
-                        // status as appropriate (e.g. the customer may need to choose
-                        // a new payment method)
+            object : ApiResultCallback<PaymentIntentResult> {
+                override fun onSuccess(result: PaymentIntentResult) {
+                    // If authentication succeeded, the PaymentIntent will have
+                    // user actions resolved; otherwise, handle the PaymentIntent
+                    // status as appropriate (e.g. the customer may need to choose
+                    // a new payment method)
 
-                        val paymentIntent = result.intent
-                        val status = paymentIntent.status
-                        if (status == StripeIntent.Status.Succeeded || status == StripeIntent.Status.RequiresCapture) {
-                            // show success UI
-                            val paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (paymentIntent.id ?: "") )
-                            flutterResult.success(paymentResponse)
-                        }
-                        else if (StripeIntent.Status.RequiresPaymentMethod == status) {
-                            // attempt authentication again or
-                            // ask for a new Payment Method
-                            // also id 3d secure fails/declined
-                            paymentIntent.lastPaymentError?.let {
-                                val paymentResponse = mapOf("status" to "failed", "errorMessage" to it.message)
-                                flutterResult.success(paymentResponse)
-                            }
-                            // FIXME: it should call success anyway or flutter part will wait forever
-                        }
-                        else if(status == StripeIntent.Status.Canceled)
-                        {
-                            val paymentResponse = mapOf("status" to "canceled" )
-                            flutterResult.success(paymentResponse)
-                        }
-                        finish()
-                    }
-
-                    override fun onError(e: Exception) {
-                        // handle error
-                        val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
+                    val paymentIntent = result.intent
+                    val status = paymentIntent.status
+                    if (status == StripeIntent.Status.Succeeded || status == StripeIntent.Status.RequiresCapture) {
+                        // show success UI
+                        val paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (paymentIntent.id ?: "") )
                         flutterResult.success(paymentResponse)
-                        finish()
                     }
-                })
+                    else if (StripeIntent.Status.RequiresPaymentMethod == status) {
+                        // attempt authentication again or
+                        // ask for a new Payment Method
+                        // also id 3d secure fails/declined
+                        paymentIntent.lastPaymentError?.let {
+                            val paymentResponse = mapOf("status" to "failed", "errorMessage" to it.message)
+                            flutterResult.success(paymentResponse)
+                        }
+                        // FIXME: it should call success anyway or flutter part will wait forever
+                    }
+                    else if(status == StripeIntent.Status.Canceled)
+                    {
+                        val paymentResponse = mapOf("status" to "canceled" )
+                        flutterResult.success(paymentResponse)
+                    }
+                    finish()
+                }
+
+                override fun onError(e: Exception) {
+                    // handle error
+                    val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
+                    flutterResult.success(paymentResponse)
+                    finish()
+                }
+            })
 
         stripe.onSetupResult(requestCode, data,
-                object : ApiResultCallback<SetupIntentResult> {
-                    override fun onSuccess(result: SetupIntentResult) {
-                        // If confirmation and authentication succeeded,
-                        // the SetupIntent will have user actions resolved;
-                        // otherwise, handle the failure as appropriate
-                        // (e.g. the customer may need to choose a new payment
-                        // method)
-                        val setupIntent = result.intent
-                        val status = setupIntent.status
-                        if (status == StripeIntent.Status.Succeeded) {
-                            // show success UI
-                            val paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (setupIntent.id ?: "") )
-                            flutterResult.success(paymentResponse)
-                        } else if (setupIntent.requiresConfirmation()) {
-                            // handle confirmation
-                        }
-                        finish()
-                    }
-
-                    override fun onError(e: Exception) {
-                        // handle error
-                        val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
+            object : ApiResultCallback<SetupIntentResult> {
+                override fun onSuccess(result: SetupIntentResult) {
+                    // If confirmation and authentication succeeded,
+                    // the SetupIntent will have user actions resolved;
+                    // otherwise, handle the failure as appropriate
+                    // (e.g. the customer may need to choose a new payment
+                    // method)
+                    val setupIntent = result.intent
+                    val status = setupIntent.status
+                    if (status == StripeIntent.Status.Succeeded) {
+                        // show success UI
+                        val paymentResponse = mapOf("status" to "succeeded", "paymentIntentId" to (setupIntent.id ?: "") )
                         flutterResult.success(paymentResponse)
-                        finish()
+                    } else if (setupIntent.requiresConfirmation()) {
+                        // handle confirmation
                     }
-                })
+                    finish()
+                }
+
+                override fun onError(e: Exception) {
+                    // handle error
+                    val paymentResponse = mapOf("status" to "failed", "errorMessage" to e.localizedMessage )
+                    flutterResult.success(paymentResponse)
+                    finish()
+                }
+            })
     }
 
 }
