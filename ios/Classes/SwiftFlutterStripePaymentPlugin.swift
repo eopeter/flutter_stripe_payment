@@ -123,6 +123,7 @@ public class StripePaymentDelegate : NSObject, IFlutterStripePaymentDelegate, ST
         {
             STPPaymentConfiguration.shared.appleMerchantIdentifier = applePayMerchantIdentifier
         }
+        STPPaymentConfiguration.shared.requiredBillingAddressFields = .none
     }
     
     func confirmPaymentIntent(clientSecret: String, paymentMethodId: String, amount: Double, isApplePay: Bool, result: @escaping FlutterResult)
