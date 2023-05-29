@@ -2,10 +2,33 @@ PODS:
   - Flutter (1.0.0)
   - flutter_stripe_payment (0.0.13):
     - Flutter
-    - Stripe (= 21.6.0)
-  - Stripe (21.6.0):
-    - Stripe/Stripe3DS2 (= 21.6.0)
-  - Stripe/Stripe3DS2 (21.6.0)
+    - Stripe (= 23.8.0)
+    - StripePaymentSheet (= 23.8.0)
+  - Stripe (23.8.0):
+    - StripeApplePay (= 23.8.0)
+    - StripeCore (= 23.8.0)
+    - StripePayments (= 23.8.0)
+    - StripePaymentsUI (= 23.8.0)
+    - StripeUICore (= 23.8.0)
+  - StripeApplePay (23.8.0):
+    - StripeCore (= 23.8.0)
+  - StripeCore (23.8.0)
+  - StripePayments (23.8.0):
+    - StripeCore (= 23.8.0)
+    - StripePayments/Stripe3DS2 (= 23.8.0)
+  - StripePayments/Stripe3DS2 (23.8.0):
+    - StripeCore (= 23.8.0)
+  - StripePaymentSheet (23.8.0):
+    - StripeApplePay (= 23.8.0)
+    - StripeCore (= 23.8.0)
+    - StripePayments (= 23.8.0)
+    - StripePaymentsUI (= 23.8.0)
+  - StripePaymentsUI (23.8.0):
+    - StripeCore (= 23.8.0)
+    - StripePayments (= 23.8.0)
+    - StripeUICore (= 23.8.0)
+  - StripeUICore (23.8.0):
+    - StripeCore (= 23.8.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -14,6 +37,12 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Stripe
+    - StripeApplePay
+    - StripeCore
+    - StripePayments
+    - StripePaymentSheet
+    - StripePaymentsUI
+    - StripeUICore
 
 EXTERNAL SOURCES:
   Flutter:
@@ -22,10 +51,16 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_stripe_payment/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_stripe_payment: 821c9fb372238fad913d44c0685cf3a6dfee8efc
-  Stripe: 6cc7bb348f4b1fad111129f6ee40eb6682deaefb
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_stripe_payment: 39e69f9f1f829dac09b9fd9ba3f42bc7df93e790
+  Stripe: 5432fbab660595a3bee937235dd71a99028ac68c
+  StripeApplePay: 5e686f50ee07c439b79b907dffeb144135e601c9
+  StripeCore: 91164d69b8593f44df9ee93e56a00355592068b6
+  StripePayments: c19d94c55723894e1f47dadb40a6f1bfa7fac214
+  StripePaymentSheet: 1fef5afa050bfd684e84553cba613041a2b3d7b7
+  StripePaymentsUI: 7d2fc8fe17c3fdc63508bc54df2b7cc3f45c8ef7
+  StripeUICore: 1dc4d2f9afcd908db85190e9091dfe260a1861fe
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.12.1

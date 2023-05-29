@@ -3,6 +3,7 @@ package com.dormmom.flutter_stripe_payment.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.dormmom.flutter_stripe_payment.R
+import com.dormmom.flutter_stripe_payment.databinding.GooglePayActivityBinding
 import com.dormmom.flutter_stripe_payment.models.TempHolder
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
 import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
@@ -13,9 +14,16 @@ class GooglePayActivity: AppCompatActivity() {
     private lateinit var flutterResult: MethodChannel.Result;
     private lateinit var googlePayLauncher: GooglePayPaymentMethodLauncher;
 
+    private val viewBinding: GooglePayActivityBinding by lazy {
+        GooglePayActivityBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.google_pay_activity)
+        setContentView(viewBinding.root)
+
+        //viewBinding.progressBar.isVisible = true
+
         val data = TempHolder.getPaymentData()
         var env = GooglePayEnvironment.Test;
         if (data!!.isProductionEnvironment)
@@ -41,8 +49,9 @@ class GooglePayActivity: AppCompatActivity() {
         flutterResult = TempHolder.getResult() as MethodChannel.Result
         flutterResult.success(isReady)
         val checkIsAvailable = intent.getBooleanExtra("checkIsAvailable", false)
-        if (checkIsAvailable)
-            finish();
+        if (checkIsAvailable) {
+            //finish();
+        }
         else{
             if (isReady) {
                 presentGooglePay()

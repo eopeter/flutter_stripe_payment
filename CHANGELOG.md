@@ -1,3 +1,6 @@
+## 0.0.18
+Update Stripe Version
+
 ## 0.0.17
 Add isAvailable check for NativePay
 

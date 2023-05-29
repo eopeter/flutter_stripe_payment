@@ -11,8 +11,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _paymentMethodId;
-  String _errorMessage = "";
+  String? _paymentMethodId;
+  String? _errorMessage = "";
   final _stripePayment = FlutterStripePayment();
   var _isNativePayAvailable = false;
 
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
                       textAlign: TextAlign.center,
                     )
                   : Container(
-                      child: Text(_errorMessage),
+                      child: Text(_errorMessage ?? ""),
                     ),
               ElevatedButton(
                 child: Text("Create a Card Payment Method"),

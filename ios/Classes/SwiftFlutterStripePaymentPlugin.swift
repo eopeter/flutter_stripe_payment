@@ -2,6 +2,7 @@ import Flutter
 import UIKit
 import PassKit
 import Stripe
+import StripePaymentSheet
 
 typealias AuthorizationCompletion = (_ payment: String) -> Void
 typealias AuthorizationViewControllerDidFinish = (_ error : NSDictionary) -> Void
@@ -208,7 +209,7 @@ public class StripePaymentDelegate : NSObject, IFlutterStripePaymentDelegate, ST
     
     func showPaymentSheet(arguments: NSDictionary, result: @escaping FlutterResult) {
         // MARK: Start the checkout process
-        guard let currentViewController = UIApplication.shared.keyWindow?.topMostViewController() else {
+        guard let currentViewController = UIApplication.shared.windows.filter({$0.isKeyWindow}).first!.topMostViewController() else {
             return
         }
         paymentSheet?.present(from: currentViewController ) { paymentResult in
@@ -404,7 +405,7 @@ public class StripePaymentDelegate : NSObject, IFlutterStripePaymentDelegate, ST
             
             if let viewController = authorizationViewController {
                 viewController.delegate = self
-                guard let currentViewController = UIApplication.shared.keyWindow?.topMostViewController() else {
+                guard let currentViewController = UIApplication.shared.windows.filter({$0.isKeyWindow}).first!.topMostViewController() else {
                     return
                 }
                 currentViewController.present(viewController, animated: true)
@@ -447,7 +448,7 @@ public class StripePaymentDelegate : NSObject, IFlutterStripePaymentDelegate, ST
     
     public func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         // Dismiss the Apple Pay UI
-        guard let currentViewController = UIApplication.shared.keyWindow?.topMostViewController() else {
+        guard let currentViewController = UIApplication.shared.windows.filter({$0.isKeyWindow}).first!.topMostViewController() else {
             return
         }
         currentViewController.dismiss(animated: true, completion: nil)
